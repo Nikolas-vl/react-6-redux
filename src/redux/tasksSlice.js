@@ -1,46 +1,45 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchTasks } from './operations';
 
-const slice = createSlice({
+const tasksSlice = createSlice({
   // Ім'я слайсу
   name: 'tasks',
-  // Початковий стан редюсера слайсу
   initialState: {
-    items: [
-      { id: 0, text: 'Learn HTML and CSS', completed: true },
-      { id: 1, text: 'Get good at JavaScript', completed: true },
-      { id: 2, text: 'Master React', completed: false },
-      { id: 3, text: 'Discover Redux', completed: false },
-      { id: 4, text: 'Build amazing apps', completed: false },
-    ],
+    items: [],
+    isLoading: false,
+    error: null,
   },
-  // Об'єкт case-редюсерів
-  reducers: {
-    addTask(state, action) {
-      // Ось так було раніше
-      // return {
-      //   ...state,
-      //   items: [...state.items, action.payload],
-      // };
+  extraReducers: builder => {
+    builder
+      .addCase(fetchTasks.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchTasks.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.items = action.payload;
+      })
+      .addCase(fetchTasks.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+  },
 
-      // ✅ Immer замінить це на операцію оновлення
-      state.items.push(action.payload);
-    },
-    deleteTask: (state, action) => {
-      state.items = state.items.filter(item => item.id !== action.payload);
-    },
-    toggleCompleted: (state, action) => {
-      for (const task of state.items) {
-        if (task.id === action.payload) {
-          task.completed = !task.completed;
-          break;
-        }
-      }
-    },
-  },
+  // addTask(state, action) {
+  //   state.items.push(action.payload);
+  // },
+  // deleteTask: (state, action) => {
+  //   state.items = state.items.filter(item => item.id !== action.payload);
+  // },
+  // toggleCompleted: (state, action) => {
+  //   for (const task of state.items) {
+  //     if (task.id === action.payload) {
+  //       task.completed = !task.completed;
+  //       break;
+  //     }
+  //   }
+  // },
 });
 
-// Експортуємо фабрики екшенів
-export const { addTask, deleteTask, toggleCompleted } = slice.actions;
-
 // Експортуємо редюсер слайсу
-export default slice.reducer;
+export default tasksSlice.reducer;
