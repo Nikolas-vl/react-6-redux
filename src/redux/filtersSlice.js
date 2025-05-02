@@ -2,7 +2,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 
-const slice = createSlice({
+const filtersSlice = createSlice({
   name: 'filters',
   initialState: {
     status: 'all',
@@ -15,7 +15,7 @@ const slice = createSlice({
 });
 
 // Експортуємо фабрики екшенів
-export const { setStatusFilter } = slice.actions;
+export const { setStatusFilter } = filtersSlice.actions;
 
 // Експортуємо редюсер слайсу
-export default slice.reducer;
+export default filtersSlice.reducer;
