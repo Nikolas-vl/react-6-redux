@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchTasks } from './operations';
 
 const tasksSlice = createSlice({
-  // Ім'я слайсу
   name: 'tasks',
   initialState: {
     items: [],
@@ -24,21 +23,6 @@ const tasksSlice = createSlice({
         state.error = action.payload;
       });
   },
-
-  // addTask(state, action) {
-  //   state.items.push(action.payload);
-  // },
-  // deleteTask: (state, action) => {
-  //   state.items = state.items.filter(item => item.id !== action.payload);
-  // },
-  // toggleCompleted: (state, action) => {
-  //   for (const task of state.items) {
-  //     if (task.id === action.payload) {
-  //       task.completed = !task.completed;
-  //       break;
-  //     }
-  //   }
-  // },
 });
 
 // Експортуємо редюсер слайсу

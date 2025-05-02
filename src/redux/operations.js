@@ -5,22 +5,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 // для всіх запитів axios
 axios.defaults.baseURL = 'https://6814a476225ff1af1629887c.mockapi.io/todos';
 
-// Оголошення асинхронної операції
-// fetchTasks для отримання даних
-// export const fetchTasks = () => async dispatch => {
-//   try {
-//     // Індикатор завантаження
-//     dispatch(fetchInProgress());
-//     // HTTP-запит
-//     const response = await axios.get('/list');
-//     // Обробка даних
-//     dispatch(fetchSuccess(response.data));
-//   } catch (e) {
-//     // Обробка помилки
-//     dispatch(fetchError(e.message));
-//   }
-// };
-
 export const fetchTasks = createAsyncThunk('tasks/fetchAll', async (_, thunkAPI) => {
   try {
     const response = await axios.get('/list');
