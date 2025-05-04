@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchTasks } from './operations';
+import { fetchTasks, addTask, deleteTask, toggleCompleted } from './operations';
 
 const tasksSlice = createSlice({
   name: 'tasks',
@@ -19,6 +19,45 @@ const tasksSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchTasks.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(addTask.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(addTask.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.items.push(action.payload);
+      })
+      .addCase(addTask.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(deleteTask.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.items = state.items.filter(task => task.id !== action.payload.id);
+      })
+      .addCase(deleteTask.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(toggleCompleted.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(toggleCompleted.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.items = state.items.map(task => (task.id === action.payload.id ? action.payload : task));
+      })
+      .addCase(toggleCompleted.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
